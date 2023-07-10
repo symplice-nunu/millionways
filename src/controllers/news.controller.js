@@ -36,16 +36,20 @@ exports.findById = function(req, res) {
       }
     });
   };
-exports.update = function(req, res) {
+  exports.update = function(req, res) {
     if (req.body.constructor === Object && Object.keys(req.body).length === 0) {
       res.status(400).send({ error: true, message: 'Please provide all required fields' });
     } else {
       News.update(req.params.id, new News(req.body), function(err, news) {
         if (err) {
-          console.log('Error:', err); // Log the error message
+          console.log('Error:', err);
           res.status(500).send({ error: true, message: 'An error occurred during news update' });
         } else {
-          res.json({ error: false, message: 'News successfully updated' });
+          if (news.message === 'News item not found') {
+            res.status(404).send({ error: true, message: 'News not found' });
+          } else {
+            res.json({ error: false, message: 'News successfully updated' });
+          }
         }
       });
     }

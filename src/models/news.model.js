@@ -50,16 +50,20 @@ else{
 }
 });
 };
-News.update = function(id, news, result){
-dbConn.query("UPDATE news SET Category=?,Level=?,Title=?,Headlines=?,Author=?,Time=?,Photo=?,Content=? WHERE id = ?", [news.Category,news.Level,news.Title,news.Headlines,news.Author,news.Time,news.Photo,news.Content, id], function (err, res) {
-if(err) {
-  console.log("error: ", err);
-  result(null, err);
-}else{
-  result(null, res);
-}
-});
-};
+News.update = function(id, news, result) {
+    dbConn.query("UPDATE news SET Category=?,Level=?,Title=?,Headlines=?,Author=?,Time=?,Photo=?,Content=? WHERE id = ?", [news.Category, news.Level, news.Title, news.Headlines, news.Author, news.Time, news.Photo, news.Content, id], function(err, res) {
+      if (err) {
+        console.log("Error:", err);
+        result(err, null);
+      } else {
+        if (res.affectedRows === 0) {
+          result(null, { message: 'News item not found' });
+        } else {
+          result(null, res);
+        }
+      }
+    });
+  };
 News.delete = function(id, result) {
     dbConn.query("DELETE FROM news WHERE id = ?", [id], function(err, res) {
       if (err) {
