@@ -24,16 +24,19 @@ else{
 }
 });
 };
-News.findById = function (id, result) {
-dbConn.query("Select * from news where id = ? ", id, function (err, res) {
-if(err) {
-  console.log("error: ", err);
-  result(err, null);
-}
-else{
-  result(null, res);
-}
-});
+News.findById = function(id, result) {
+  dbConn.query("SELECT * FROM news WHERE id = ?", id, function(err, res) {
+    if (err) {
+      console.log("Error:", err);
+      result(err, null);
+    } else {
+      if (res.length === 0) {
+        result(null, { message: 'News item not found' });
+      } else {
+        result(null, res);
+      }
+    }
+  });
 };
 News.findAll = function (result) {
 dbConn.query("Select * from news", function (err, res) {
@@ -57,15 +60,18 @@ if(err) {
 }
 });
 };
-News.delete = function(id, result){
-dbConn.query("DELETE FROM news WHERE id = ?", [id], function (err, res) {
-if(err) {
-  console.log("error: ", err);
-  result(null, err);
-}
-else{
-  result(null, res);
-}
-});
-};
+News.delete = function(id, result) {
+    dbConn.query("DELETE FROM news WHERE id = ?", [id], function(err, res) {
+      if (err) {
+        console.log("Error:", err);
+        result(err, null);
+      } else {
+        if (res.affectedRows === 0) {
+          result(null, { message: 'News item not found' });
+        } else {
+          result(null, res);
+        }
+      }
+    });
+  };
 module.exports= News;
