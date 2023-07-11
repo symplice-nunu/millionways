@@ -38,18 +38,21 @@ News.findById = function(id, result) {
     }
   });
 };
-News.findAll = function (result) {
-dbConn.query("Select * from news", function (err, res) {
-if(err) {
-  console.log("error: ", err);
-  result(null, err);
-}
-else{
-  console.log('news : ', res);
-  result(null, res);
-}
-});
-};
+News.findAll = function(result) {
+    dbConn.query("SELECT * FROM news", function(err, res) {
+      if (err) {
+        console.log("Error:", err);
+        result(err, null);
+      } else {
+        if (res.length === 0) {
+          result(null, { message: 'No news items found' });
+        } else {
+          console.log('news:', res);
+          result(null, res);
+        }
+      }
+    });
+  };
 News.update = function(id, news, result) {
     dbConn.query("UPDATE news SET Category=?,Level=?,Title=?,Headlines=?,Author=?,Time=?,Photo=?,Content=? WHERE id = ?", [news.Category, news.Level, news.Title, news.Headlines, news.Author, news.Time, news.Photo, news.Content, id], function(err, res) {
       if (err) {
