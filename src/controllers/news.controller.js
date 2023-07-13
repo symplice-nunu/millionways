@@ -32,7 +32,22 @@ exports.findAll = function(req, res) {
       }
     });
   };
-  
+  exports.findByCategory = function(req, res) {
+    News.findByCategory(function(err, news) {
+      console.log('controller');
+      if (err) {
+        console.log('Error:', err);
+        res.status(500).send({ error: true, message: 'An error occurred while fetching news items' });
+      } else {
+        if (news.message === 'No news items found') {
+          res.status(404).send({ error: true, message: 'No news items found' });
+        } else {
+          console.log('res:', news);
+          res.send(news);
+        }
+      }
+    });
+  };
 exports.create = function(req, res) {
 const new_news = new News(req.body);
 //handles null error

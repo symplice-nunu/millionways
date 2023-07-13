@@ -3,7 +3,9 @@ const router = express.Router()
 const newsController =   require('../controllers/news.controller');
 // Retrieve all news
 router.get('/', newsController.findAll);
-// Retrieve all news
+// Retrieve by category news
+router.get('/findbycategory', newsController.findByCategory);
+// Retrieve top news
 router.get('/findtopnews', newsController.findTopNews);
 // Create a new news
 router.post('/', newsController.create);

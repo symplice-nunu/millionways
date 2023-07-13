@@ -53,7 +53,21 @@ News.findById = function(id, result) {
       }
     });
   };
-    
+  News.findByCategory = function(result) {
+    dbConn.query("SELECT * FROM news WHERE Category = 'sport'", function(err, res) {
+      if (err) {
+        console.log("Error:", err);
+        result(err, null);
+      } else {
+        if (res.length === 0) {
+          result(null, { message: 'No news items found' });
+        } else {
+          console.log('news:', res);
+          result(null, res);
+        }
+      }
+    });
+  };   
 News.findAll = function(result) {
     dbConn.query("SELECT * FROM news", function(err, res) {
       if (err) {
