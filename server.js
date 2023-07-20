@@ -17,7 +17,9 @@ app.get('/', (req, res) => {
   res.send("Hello Symplice INTWARI");
 });
 const newsRoutes = require('./src/routes/news.routes')
+const usersRoutes = require('./src/routes/users.routes')
 app.use('/api/v1/news', newsRoutes)
+app.use('/api/v1/user', usersRoutes)
 app.listen(port, () => {
   console.log(`Server is listening on port ${port}`);
 });
