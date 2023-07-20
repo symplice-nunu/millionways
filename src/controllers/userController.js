@@ -28,6 +28,21 @@ const userController = {
           }
         });
       },
+      deleteUser: (req, res) => {
+        const userId = req.params.id;
+        User.deleteUser(userId, (err, deleted) => {
+          if (err) {
+            console.error('Error deleting user:', err);
+            res.status(500).json({ error: 'Error deleting user' });
+          } else {
+            if (deleted) {
+              res.json({ message: 'User deleted successfully' });
+            } else {
+              res.status(404).json({ error: 'User not found' });
+            }
+          }
+        });
+      },
 };
 
 module.exports = userController;

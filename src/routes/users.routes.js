@@ -17,6 +17,7 @@ router.post('/permissions', permissionController.createPermission);
 // Users
 router.get('/users', userController.getAllUsers);
 router.post('/users', userController.createUser);
+router.delete('/users/:id', userController.deleteUser);
 
 // User Roles
 router.post('/users/:userId/roles/:roleId', userRoleController.assignRoleToUser);
